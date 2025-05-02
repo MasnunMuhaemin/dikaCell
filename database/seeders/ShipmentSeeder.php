@@ -15,28 +15,40 @@ class ShipmentSeeder extends Seeder
     public function run(): void
     {
         Shipment::create([
-            'shipment_date' => Carbon::now()->addDays(1),
-            'alamat_lengkap' => 'Jl. Kenanga No. 12',
-            'kota' => 'Jakarta',
-            'kecamatan' => 'Cempaka Putih',
-            'desa' => 'Rawasari',
-            'kode_pos' => '10570',
+            'user_id'         => 2,
+            'order_id'        => 2,
+            'shipment_date'   => Carbon::now(),
+            'alamat_lengkap'  => 'Jl. Melati No. 123',
+            'kota'            => 'Bandung',
+            'kecamatan'       => 'Coblong',
+            'desa'            => 'Dago',
+            'kode_pos'        => '40135',
+            'shipping_cost'   => 25000,
+            'shipping_status' => 'dikirim',
         ]);
         Shipment::create([
-            'shipment_date' => Carbon::now()->addDays(2),
-            'alamat_lengkap' => 'Jl. Melati No. 9',
-            'kota' => 'Bandung',
-            'kecamatan' => 'Coblong',
-            'desa' => 'Dago',
-            'kode_pos' => '40135',
+            'user_id'         => 2,
+            'order_id'        => 2,
+            'shipment_date'   => Carbon::now(),
+            'alamat_lengkap'  => 'Jl. Melati No. 123',
+            'kota'            => 'Bandung',
+            'kecamatan'       => 'Cicaheum',
+            'desa'            => 'Bubat',
+            'kode_pos'        => '40135',
+            'shipping_cost'   => 25000,
+            'shipping_status' => 'belum dikirim',
         ]);
         Shipment::create([
-            'shipment_date' => Carbon::now()->addDays(3),
-            'alamat_lengkap' => 'Jl. Anggrek No. 5',
-            'kota' => 'Surabaya',
-            'kecamatan' => 'Sukolilo',
-            'desa' => 'Keputih',
-            'kode_pos' => '60111',
+            'user_id'         => 1,
+            'order_id'        => 1,
+            'shipment_date'   => Carbon::now(),
+            'alamat_lengkap'  => 'Jl. Melati No. 123',
+            'kota'            => 'Bandung',
+            'kecamatan'       => 'Coblong',
+            'desa'            => 'Dago',
+            'kode_pos'        => '40135',
+            'shipping_cost'   => 25000,
+            'shipping_status' => 'diterima',
         ]);
     }
 }

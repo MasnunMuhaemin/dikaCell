@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->dateTime('payment_date');
-            $table->string('payment_method', 100);
             $table->decimal('amount', 10, 2);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->enum('payment_method', ['transfer', 'COD', 'e-wallet']);
+            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
             $table->timestamps();
         });
     }

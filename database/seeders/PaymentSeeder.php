@@ -15,22 +15,28 @@ class PaymentSeeder extends Seeder
     public function run(): void
     {
         Payment::create([
-            'payment_date' => Carbon::now()->subDays(2),
-            'payment_method' => 'Transfer Bank',
-            'amount' => 150000.00,
-            'user_id' => 1, // pastikan user ID 1 ada
+            'payment_date'    => Carbon::now()->subDay(),
+            'payment_method'  => 'transfer',
+            'amount'          => 150000.00,
+            'user_id'         => 1,
+            'order_id'        => 1,
+            'payment_status'  => 'paid',
         ]);
         Payment::create([
-            'payment_date' => Carbon::now()->subDay(),
-            'payment_method' => 'OVO',
-            'amount' => 225000.00,
-            'user_id' => 2,
+            'payment_date'    => Carbon::now()->subDay(),
+            'payment_method'  => 'transfer',
+            'amount'          => 150000.00,
+            'user_id'         => 2,
+            'order_id'        => 2,
+            'payment_status'  => 'pending',
         ]);
         Payment::create([
-            'payment_date' => Carbon::now(),
-            'payment_method' => 'Gopay',
-            'amount' => 90000.00,
-            'user_id' => 1,
+            'payment_date'    => Carbon::now()->subDay(),
+            'payment_method'  => 'transfer',
+            'amount'          => 150000.00,
+            'user_id'         => 1,
+            'order_id'        => 1,
+            'payment_status'  => 'pending',
         ]);
     }
 }

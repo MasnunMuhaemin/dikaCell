@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shipments', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('shipment_date');
-            $table->string('alamat_lengkap', 100);
-            $table->string('kota', 100);
-            $table->string('kecamatan', 20);
-            $table->string('desa', 50);
-            $table->string('kode_pos', 10);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->dateTime('order_date');
+            $table->decimal('total_price', 10, 2);
+            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shipments');
+        Schema::dropIfExists('orders');
     }
 };
