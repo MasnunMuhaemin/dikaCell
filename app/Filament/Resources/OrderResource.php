@@ -6,6 +6,7 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
@@ -20,13 +21,13 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('user_id')
+                Select::make('user_id')
                     ->relationship('user', 'name'),
                 TextInput::make('order_date'),
                 TextInput::make('total_price'),
@@ -43,13 +44,15 @@ class OrderResource extends Resource
                     ])
                     ->icons([
                         'pending' => 'heroicon-o-clock',
-                        'confirmed' => 'heroicon-o-check-circle',
-                        'canceled' => 'heroicon-o-x-circle',
+                        'processing' => 'heroicon-o-check-circle',
+                        'completed' => 'heroicon-o-check-circle',
+                        'cancelled' => 'heroicon-o-x-circle',
                     ])
                     ->colors([
                         'pending' => 'warning',
-                        'confirmed' => 'success',
-                        'canceled' => 'danger',
+                        'processing' => 'success',
+                        'completed' => 'success',
+                        'cancelled' => 'danger',
                     ]),
             ]);
     }
@@ -74,8 +77,9 @@ class OrderResource extends Resource
                     })
                     ->colors([
                         'pending' => 'warning',
-                        'confirmed' => 'success',
-                        'canceled' => 'danger',
+                        'pcompleted' => 'success',
+                        'processing' => 'success',
+                        'cancelled' => 'danger',
                     ]),
             ])
             ->filters([
