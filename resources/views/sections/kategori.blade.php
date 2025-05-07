@@ -1,4 +1,4 @@
-<section class="py-14">
+<section id="kategori" class="py-14">
   <div class="max-w-8xl mx-auto px-8 sm:px-10 lg:px-12"> <!-- Memperlebar padding kanan dan kiri -->
     
     <!-- Header Section -->

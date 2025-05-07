@@ -1,4 +1,4 @@
-<section class="container py-16">
+<section id="tentang" class="container py-16">
   <div class="max-w-8xl mx-auto px-8 sm:px-10 lg:px-12">
       <div class="grid md:grid-cols-2 gap-12 items-center">
       

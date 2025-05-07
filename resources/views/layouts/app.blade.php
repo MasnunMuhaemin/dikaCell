@@ -20,21 +20,8 @@
         @endif
     </head>
     <body class="antialiased bg-white">
-        @include('components.navbar')
-        @include('sections.hero')
-        @include('sections.layanan')
-        @include('sections.tentang')
-        @include('sections.kategori')
-        @include('sections.kategori')
-        @include('sections.kategori')
-        @include('sections.kontak')
-        @include('sections.faq')
-        @include('components.detailProduk')
-        @include('components.cart')
-        @include('auth.login')
-        @include('auth.register')
-        @include('components.detailPembayaran')
-
+        <x-navbar></x-navbar>
+        @yield('content')
         <x-footer></x-footer>
     </body>
 </html>
