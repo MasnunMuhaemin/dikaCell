@@ -27,7 +27,10 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('kode_product'),
+                TextInput::make('name'),
                 TextInput::make('description'),
+                TextInput::make('img'),
                 TextInput::make('price')
                     ->prefix('Rp.'),
                 TextInput::make('stock'),
@@ -40,7 +43,10 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('kode_product'),
+                TextColumn::make('name'),
                 TextColumn::make('description'),
+                TextColumn::make('img'),
                 TextColumn::make('price')
                     ->prefix('Rp.'),
                 TextColumn::make('stock'),

@@ -2,6 +2,15 @@
 <html lang="en">
 <head>
     <title>Login || Customer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+        <!-- Styles / Scripts -->
+        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @else
+            <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+            <script src="{{ mix('js/app.js') }}" defer></script>
+        @endif
 </head>
 <body>
     <div class="min-h-screen flex">
