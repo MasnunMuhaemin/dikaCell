@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kode_product')->unique();
             $table->string('name');
             $table->text('description');
-            $table->string('img')->nullable();
+            $table->string('img');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');

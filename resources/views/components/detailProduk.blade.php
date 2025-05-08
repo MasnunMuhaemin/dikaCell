@@ -1,28 +1,28 @@
-<div class="max-w-6xl mx-auto py-12 px-4">
+@extends('layouts.app')
+
+<div class="max-w-6xl mx-auto py-24 px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
 
         <!-- Gambar Produk -->
         <div class="relative w-full h-[400px] bg-primary rounded-xl shadow-lg flex justify-center items-center group">
-            <img src="{{ asset('images/aksesoris.png') }}"
-                alt="Casing iPhone 11 Pro"
+            <img src="{{ asset('storage/' . $product->img) }}" alt="{{ $product->name }}"
                 class="object-contain transition duration-300 ease-in-out max-h-full max-w-full">
         </div>
 
         <!-- Informasi Produk -->
         <div class="space-y-4">
-            <h2 class="text-3xl font-bold text-gray-900">Casing iPhone 11 Pro</h2>
+            <h2 class="text-3xl font-bold text-gray-900">{{ $product->name }}</h2> <!-- Nama Produk -->
 
             <div class="flex items-center gap-3">
-                <span class="text-red-600 text-2xl font-semibold">Rp 100.000</span>
-                <span class="text-gray-400 line-through text-base">Rp 120.000</span>
+                <span class="text-red-600 text-2xl font-semibold">Rp {{ number_format($product->price * 0.5, 2) }}</span> <!-- Harga diskon -->
+                <span class="text-gray-400 line-through text-base">Rp {{ number_format($product->price, 2) }}</span> <!-- Harga asli -->
             </div>
 
-            <p class="text-sm text-gray-500">Kategori: <span class="text-gray-800 font-medium">Aksesoris HP</span></p>
-            <p class="text-sm text-green-600 font-semibold">Stok tersedia</p>
+            <p class="text-sm text-gray-500">Kategori: <span class="text-gray-800 font-medium">{{ $product->category->name }}</span></p> <!-- Kategori -->
+            <p class="text-sm text-green-600 font-semibold">{{ $product->stock > 0 ? 'Stok tersedia' : 'Stok habis' }}</p> <!-- Stok -->
 
             <p class="text-gray-700 text-base leading-relaxed">
-                Casing premium untuk iPhone 11 Pro dengan desain elegan, anti slip dan tahan benturan.
-                Cocok untuk kamu yang ingin tampil gaya sekaligus melindungi gadget-mu.
+                {{ $product->description }} <!-- Deskripsi produk -->
             </p>
 
             <div class="pt-6">
@@ -31,6 +31,13 @@
                     Tambahkan ke Keranjang
                 </button>
             </div>
+
+            <!-- Tombol Kembali ke Halaman Utama -->
+            <div class="pt-6">
+                <a href="{{ url('/') }}" class="w-full md:w-auto bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-3 rounded-lg shadow-md transition duration-200">
+                    Kembali ke Halaman Utama
+                </a>
+            </div>
         </div>
     </div>
 
@@ -38,19 +45,17 @@
     <div class="mt-16">
         <h3 class="text-xl font-semibold mb-4 text-gray-800">Produk Terkait</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            @for ($i = 0; $i < 4; $i++)
+            @foreach($relatedProducts as $relatedProduct)
             <div class="bg-primary shadow rounded-lg overflow-hidden transition">
-                <!-- Gambar Produk Terkait, memastikan gambar center di dalam flex container -->
                 <div class="flex justify-center items-center mt-2 h-[200px]">
-                    <img src="{{ asset('images/aksesoris.png') }}" alt="Produk Terkait" class="rounded-md mb-2 max-h-full object-contain">
+                    <img src="{{ asset('storage/' . $relatedProduct->image) }}" alt="Produk Terkait" class="rounded-md mb-2 max-h-full object-contain">
                 </div>
-                <!-- Bagian Deskripsi Produk -->
                 <div class="bg-gray-100 p-4">
-                    <h4 class="text-sm font-medium text-gray-800">Casing iPhone 11 Pro</h4>
-                    <p class="text-sm text-red-500 font-semibold">Rp 95.000</p>
+                    <h4 class="text-sm font-medium text-gray-800">{{ $relatedProduct->name }}</h4>
+                    <p class="text-sm text-red-500 font-semibold">Rp {{ number_format($relatedProduct->price) }}</p>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 </div>

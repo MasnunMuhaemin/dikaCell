@@ -6,11 +6,13 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,13 +29,23 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('kode_product'),
-                TextInput::make('name'),
-                TextInput::make('description'),
-                TextInput::make('img'),
+                TextInput::make('kode_product')
+                    ->required(),
+                TextInput::make('name')
+                    ->required(),
+                TextInput::make('description')
+                    ->required(),
+                FileUpload::make('img')
+                    ->disk('public')
+                    ->directory('product')
+                    ->visibility('public')
+                    ->label('Gambar Product')
+                    ->image()
+                    ->required(),
                 TextInput::make('price')
                     ->prefix('Rp.'),
-                TextInput::make('stock'),
+                TextInput::make('stock')
+                    ->required(),
                 Select::make('category_id')
                     ->relationship('category', 'name')
             ]);
@@ -46,7 +58,10 @@ class ProductResource extends Resource
                 TextColumn::make('kode_product'),
                 TextColumn::make('name'),
                 TextColumn::make('description'),
-                TextColumn::make('img'),
+                ImageColumn::make('img')
+                    ->disk('public')
+                    ->label('Gambar Produk')
+                    ->circular(),
                 TextColumn::make('price')
                     ->prefix('Rp.'),
                 TextColumn::make('stock'),

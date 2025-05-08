@@ -1,23 +1,35 @@
-<section class="py-8 px-4">
-    <h2 class="text-xl font-semibold mb-6">Aksesoris</h2>
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        @for ($i = 0; $i < 15; $i++)
-            <div class="bg-blue-100 rounded-lg shadow hover:shadow-lg transition duration-300 p-3 relative">
-                <div class="aspect-w-1 aspect-h-1 bg-white rounded-lg overflow-hidden">
-                    <img src="{{ asset('images/aksesoris.png') }}" alt="Produk" class="object-cover w-full h-full">
+@extends('layouts.app')
+    <section id="kategori-detail" class="py-24">
+        <div class="max-w-8xl mx-auto px-8 sm:px-10 lg:px-12">
+          <h2 class="text-xl font-bold underline mb-4">{{ $category->name }}</h2>
+      
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            @foreach ($products as $product)
+            <a href="{{ route('produk.show', $product->id) }}" class="block">
+              <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <!-- Image with Diskon -->
+                <div class="relative bg-primary h-64 flex items-center justify-center">
+                  <img src="{{ asset('images/aksesoris.png') }}" alt="Produk {{ $product->name }}" class="h-48">
+                  <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">
+                    50%
+                  </div>
                 </div>
-
-                <div class="mt-2">
-                    <p class="text-red-600 font-semibold text-sm">Rp 100.000</p>
-                    <p class="text-gray-500 line-through text-xs">Rp 120.000</p>
-                    <p class="text-sm mt-1">Casing iPhone 11 Pro</p>
+      
+                <div class="h-1 bg-red-500 w-full"></div>
+      
+                <!-- Detail Produk -->
+                <div class="bg-gray-200 p-4">
+                  <div class="flex justify-between text-sm text-gray-700 mb-1">
+                    <span class="line-through text-black">Rp. {{ number_format($product->price, 2) }}</span>
+                    <span>Stok: {{ $product->stock }}</span>
+                  </div>
+                  <div class="text-red-600 font-bold text-lg mb-1">Rp. {{ number_format($product->price * 0.5, 2) }}</div>
+                  <div class="text-center font-medium text-black">{{ $product->name }}</div>
                 </div>
-
-                <div class="absolute top-2 right-2 bg-white rounded-full w-6 h-6 flex items-center justify-center text-red-500 text-xs font-bold shadow">
-                    % 
-                </div>
-            </div>
-        @endfor
-    </div>
-</section>
+              </div>
+            </a>  
+            @endforeach
+          </div>
+        </div>
+      </section>
+  

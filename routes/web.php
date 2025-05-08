@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VerifyOtpController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('pages.landing'); 
-})->name('home');
+Route::get('/', [ProductController::class, 'landing'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -15,6 +14,9 @@ Route::middleware('auth')->group(function () {
         return view('pages.landing'); 
     })->name('pages.app');
 });
+
+Route::get('/kategori/{id}', [ProductController::class, 'getProduct'])->name('category.products');
+Route::get('/produk/{id}', [ProductController::class, 'show'])->name('produk.show');
 
 Route::prefix('auth')->group(function () {
     Route::get('/verify-otp', [VerifyOtpController::class, 'showForm'])->name('auth.verify.otp.form');

@@ -14,7 +14,7 @@
               <p class="text-black mb-6">
                   Aksesoris, sparepart, dan tools HP lengkap dan berkualitas. Belanja mudah, cepat, dan terpercaya hanya di dikaCell!
               </p>
-              <a href="#" class="inline-block px-6 py-3 bg-primary text-white font-semibold rounded-full shadow hover:bg-primary transition">
+              <a href="#kategori" class="inline-block px-6 py-3 bg-primary text-white font-semibold rounded-full shadow hover:bg-primary transition">
                   Pesan Sekarang!
               </a>
           </div>
