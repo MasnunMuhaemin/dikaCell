@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\VerifyEmailNotification;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -28,20 +30,22 @@ class AuthController extends Controller
             $request->validate([
                 'email' => 'required|email|exists:users,email',
                 'password' => 'required',
-            ], [
-                'email.required' => 'Email Wajib Di Isi',
-                'email.exists' => 'User Tidak Ditemukan',
-                'password.required' => 'Password Wajib Di Isi',
             ]);
 
             $credentials = $request->only(['email', 'password']);
 
             if (Auth::attempt($credentials)) {
                 $user = User::where('email', $request->email)->first();
-                if($user->hasRole('admin')) {
+                if ($user->hasRole('admin')) {
                     return redirect('/admin')->with('success', 'Akun berhasil diverifikasi dan Anda telah login.');
-                }else {
-                    return view('pages.landing');
+                } else {
+                    $categories = Category::with('products')->get();
+                    $products = Product::latest()->limit(3)->get();
+
+                    return view('pages.landing', [
+                        'categories' => $categories,
+                        'products' => $products
+                    ]);
                 }
             } else {
                 return redirect()->back()->with('error', 'Ada Kesalahan Saat Login');
@@ -96,7 +100,6 @@ class AuthController extends Controller
                 $user->delete();
                 return redirect()->back()->withErrors(['email' => 'Gagal mengirimkan OTP: ' . $e->getMessage()]);
             }
-
         } catch (Exception $e) {
             toastr()->warning('invalid', $e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());

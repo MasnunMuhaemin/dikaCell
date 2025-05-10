@@ -9,7 +9,7 @@
               <div class="bg-white rounded-lg shadow-md overflow-hidden">
                 <!-- Image with Diskon -->
                 <div class="relative bg-primary h-64 flex items-center justify-center">
-                  <img src="{{ asset('images/aksesoris.png') }}" alt="Produk {{ $product->name }}" class="h-48">
+                  <img src="{{ asset('storage/' . $product->img)}}" alt="Produk {{ $product->name }}" class="h-48">
                   <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">
                     50%
                   </div>

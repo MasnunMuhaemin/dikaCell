@@ -22,6 +22,7 @@
     <body class="antialiased bg-white">
         <x-navbar></x-navbar>
         @yield('content')
+        @stack('scripts')
         <x-footer></x-footer>
     </body>
 </html>

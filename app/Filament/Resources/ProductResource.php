@@ -43,9 +43,13 @@ class ProductResource extends Resource
                     ->image()
                     ->required(),
                 TextInput::make('price')
-                    ->prefix('Rp.'),
+                    ->prefix('Rp.')
+                    ->numeric(),
                 TextInput::make('stock')
                     ->required(),
+                TextInput::make('discount')
+                    ->required()
+                    ->numeric(),
                 Select::make('category_id')
                     ->relationship('category', 'name')
             ]);
@@ -65,6 +69,7 @@ class ProductResource extends Resource
                 TextColumn::make('price')
                     ->prefix('Rp.'),
                 TextColumn::make('stock'),
+                TextColumn::make('discount'),
                 TextColumn::make('category.name')
             ])
             ->filters([

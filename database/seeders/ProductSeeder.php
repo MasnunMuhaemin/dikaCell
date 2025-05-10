@@ -20,6 +20,7 @@ class ProductSeeder extends Seeder
             'img' => 'aksesoris.png',
             'price' => 75000.00,
             'stock' => 20,
+            'discount' => 20,
             'category_id' => 1, // asumsi ID 1 = Sparepart
         ]);
         Product::create([
@@ -28,6 +29,7 @@ class ProductSeeder extends Seeder
             'description' => 'Casing silikon pelindung untuk semua tipe HP',
             'img' => 'aksesoris.png',
             'price' => 25000.00,
+            'discount' => 0,
             'stock' => 100,
             'category_id' => 2, // asumsi ID 2 = Aksesoris HP
         ]);
@@ -38,6 +40,7 @@ class ProductSeeder extends Seeder
             'img' => 'aksesoris.png',
             'price' => 95000.00,
             'stock' => 50,
+            'discount' => 10,
             'category_id' => 3, // asumsi ID 3 = Tools
         ]);
     }

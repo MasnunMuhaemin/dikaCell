@@ -31,11 +31,18 @@
         @endif
       </div>
 
+      @php
+          $cart = session('cart', []);
+          $cartCount = collect($cart)->sum('quantity');
+      @endphp
+
       @if (auth()->check())
-        <a href="#" class="relative text-black hover:text-primary transition ml-4">
-          <i class="fas fa-shopping-cart text-2xl"></i>
-          <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">3</span>
-        </a>
+          <a href="{{ route('cart.index') }}" class="relative text-black hover:text-primary transition ml-4">
+              <i class="fas fa-shopping-cart text-2xl"></i>
+              @if ($cartCount > 0)
+                  <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">{{ $cartCount }}</span>
+              @endif
+          </a>
       @endif
 
     </div>

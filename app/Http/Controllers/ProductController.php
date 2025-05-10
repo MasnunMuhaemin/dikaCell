@@ -10,36 +10,34 @@ class ProductController extends Controller
 {
     public function landing()
     {
-        $allProducts = Product::limit(3)->get();
-        $category = Category::with('products')->get();
-        
+        $categories = Category::with('products')->get();
+        $products = Product::latest()->limit(3)->get();
+
         return view('pages.landing', [
-            'product' => $allProducts,
-            'category' => $category
+            'categories' => $categories,
+            'products' => $products
         ]);
     }
 
     public function getProduct($id)
     {
-        $category = Category::with('products')->findOrFail($id); 
+        $category = Category::findOrFail($id);
 
         return view('components.produk', [
             'category' => $category,
-            'products' => $category->products 
+            'products' => $category->products
         ]);
     }
 
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        
-        // Mengambil produk terkait, bisa menggunakan relasi atau kriteria lain
-        $relatedProducts = Product::where('category_id', $product->category_id)
-                                  ->where('id', '!=', $product->id)
-                                  ->take(4)
-                                  ->get();
 
-        // Mengirim data ke view dengan compact
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->take(4)
+            ->get();
+
         return view('components.detailProduk', compact('product', 'relatedProducts'));
     }
 }

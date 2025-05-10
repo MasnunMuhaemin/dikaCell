@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('img');
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 10, 2); // Harga produk
             $table->integer('stock');
+            $table->decimal('discount', 5, 2)->nullable(); // Discount produk, bisa null
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });

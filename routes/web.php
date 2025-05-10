@@ -1,17 +1,19 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VerifyOtpController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', [ProductController::class, 'landing'])->name('home');
+Route::get('/', [ProductController::class, 'landing']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/pages/app', function () {
-        return view('pages.landing'); 
+        return view('pages.landing');
     })->name('pages.app');
 });
 
@@ -22,6 +24,14 @@ Route::prefix('auth')->group(function () {
     Route::get('/verify-otp', [VerifyOtpController::class, 'showForm'])->name('auth.verify.otp.form');
     Route::post('/verify-otp', [VerifyOtpController::class, 'verifyOtp'])->name('auth.verify.otp.submit');
     Route::post('/resend-otp', [VerifyOtpController::class, 'resendOtp'])->name('auth.resend.otp');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('cart.id');
+    Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout.index');
+    Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('checkout.payment');
 });
 
 Route::middleware('guest')->group(function () {
