@@ -51,9 +51,10 @@
 
     <!-- Tombol Aksi -->
     <div class="mt-6 flex justify-between items-center gap-3 flex-col md:flex-row">
-        <a href="{{ route('checkout.index') }}" class="btn btn-primary">
+        <a href="{{ route('checkout.payment', ['orderId' => $order->id ?? 1]) }}" class="btn btn-primary">
             Lanjutkan ke Pembayaran
-        </a>               
+        </a>
+  
         <a href="{{ url('/') }}" class="w-full md:w-auto bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-lg shadow-md transition duration-200 text-center">
             Lanjut Belanja
         </a>

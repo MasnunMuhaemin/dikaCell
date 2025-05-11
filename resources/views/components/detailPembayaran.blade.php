@@ -1,98 +1,106 @@
 @extends('layouts.app')
 
-<div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md mt-10">
-    <h2 class="text-2xl font-bold text-primary mb-6">Form Pembayaran & Pemilihan Jasa Pengiriman</h2>
+@section('content')
+<div class="max-w-5xl mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-4">Detail Pembayaran</h2>
 
-    <form action="{{ route('checkout.payment') }}" method="POST" class="space-y-6">
-        @csrf
-        <!-- Pemilihan Jasa Pengiriman -->
-        <div>
-            <label for="shipping_service" class="block text-gray-500 mb-2">Pilih Jasa Pengiriman</label>
-            <select id="shipping_service" name="shipping_service" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                <option value="jne">JNE - REG</option>
-                <option value="jnt">JNT - Regular</option>
-                <option value="tiki">TIKI - ONS</option>
-            </select>
+    {{-- Notifikasi sukses --}}
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('success') }}
         </div>
+    @endif
 
-        <!-- Pembayaran -->
-        <div>
-            <label for="payment_method" class="block text-gray-500 mb-2">Metode Pembayaran</label>
-            <select id="payment_method" name="payment_method" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                <option value="bca">Transfer Bank (BCA)</option>
-                <option value="mandiri">Transfer Bank (Mandiri)</option>
-                <option value="gopay">GoPay</option>
-            </select>
-        </div>
-
-        <!-- Button Submit -->
-        <div>
-            <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md font-semibold hover:bg-primary-dark">
-                Konfirmasi Pembayaran
-            </button>
-        </div>
-    </form>
-
-    <!-- Informasi Pembayaran -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-6">
-        <div>
-            <p class="text-gray-500">Nama Pemesan</p>
-            <p class="font-semibold text-black">{{ $cart->customer_name ?? 'Nama Pelanggan' }}</p>
-        </div>
-        <div>
-            <p class="text-gray-500">Tanggal Pembayaran</p>
-            <p class="font-semibold text-black">{{ $payment->payment_date ?? 'Tanggal Pembayaran' }}</p>
-        </div>
-        <div>
-            <p class="text-gray-500">Metode Pembayaran</p>
-            <p class="font-semibold text-black">{{ $payment->payment_method ?? 'Metode Pembayaran' }}</p>
-        </div>
-        <div>
-            <p class="text-gray-500">Status</p>
-            <span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                {{ $payment->payment_status ?? 'Status Pembayaran' }}
-            </span>
-        </div>
+    {{-- Detail Order --}}
+    <div class="bg-white shadow-md rounded p-4 mb-6">
+        <h4 class="text-lg font-semibold mb-2">Order ID: {{ $order->id ?? '-' }}</h4>
+        <p class="text-gray-600">Status: {{ $order->status ?? 'belum dikirim' }}</p>
     </div>
 
-    <!-- Rincian Produk -->
-    <div class="border-t pt-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Rincian Produk</h3>
+    {{-- Tabel Produk di Keranjang --}}
+    <div class="bg-white shadow-md rounded p-4 mb-6">
+        <h5 class="text-lg font-semibold mb-3">Produk di Keranjang</h5>
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 text-sm text-gray-600">
-                        <th class="py-2 px-4 border-b">Produk</th>
-                        <th class="py-2 px-4 border-b">Qty</th>
-                        <th class="py-2 px-4 border-b">Harga Satuan</th>
-                        <th class="py-2 px-4 border-b">Total</th>
+            <table class="min-w-full table-auto text-sm">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Nama Produk</th>
+                        <th class="px-4 py-2 text-left">Jumlah</th>
+                        <th class="px-4 py-2 text-left">Harga</th>
                     </tr>
                 </thead>
-                <tbody class="text-sm">
-                    @foreach($order->items as $item)
-                        <tr class="border-b">
-                            <td class="py-2 px-4">{{ $item->product_name }}</td>
-                            <td class="py-2 px-4">{{ $item->quantity }}</td>
-                            <td class="py-2 px-4">{{ number_format($item->price, 2, ',', '.') }}</td>
-                            <td class="py-2 px-4">{{ number_format($item->quantity * $item->price, 2, ',', '.') }}</td>
+                <tbody>
+                    @forelse($cart as $item)
+                        <tr class="border-t">
+                            <td class="px-4 py-2">{{ $item['name'] ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $item['quantity'] ?? 1 }}</td>
+                            <td class="px-4 py-2">Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-gray-500">Keranjang kosong.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="py-3 px-4 text-right font-semibold">Subtotal</td>
-                        <td class="py-3 px-4 font-semibold">{{ number_format($order->subtotal, 2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" class="py-2 px-4 text-right font-semibold">Ongkir</td>
-                        <td class="py-2 px-4 font-semibold">{{ number_format($order->shipping_cost, 2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" class="py-3 px-4 text-right text-lg font-bold">Total Pembayaran</td>
-                        <td class="py-3 px-4 text-lg font-bold text-primary">{{ number_format($order->total, 2, ',', '.') }}</td>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>
+
+    {{-- Form Pembayaran dan Pengiriman --}}
+    <div class="bg-white shadow-md rounded p-4">
+        <h5 class="text-lg font-semibold mb-4">Form Pembayaran & Pengiriman</h5>
+        <form action="{{ route('process.payment') }}" method="POST" class="space-y-4">
+            @csrf
+            <input type="hidden" name="orderId" value="{{ $order->id ?? '' }}">
+
+            {{-- Metode Pembayaran --}}
+            <div>
+                <label for="payment_method" class="block font-medium text-sm">Metode Pembayaran</label>
+                <select name="payment_method" id="payment_method" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                    <option value="">-- Pilih --</option>
+                    <option value="transfer">Transfer Bank</option>
+                    <option value="e-wallet">e-wallet</option>
+                    <option value="cod">Cash on Delivery (COD)</option>
+                </select>
+            </div>
+
+            {{-- Alamat --}}
+            <div>
+                <label for="alamat_lengkap" class="block font-medium text-sm">Alamat Lengkap</label>
+                <textarea name="alamat_lengkap" rows="2" required class="mt-1 block w-full border-gray-300 rounded shadow-sm"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block font-medium text-sm">Kota</label>
+                    <input type="text" name="kota" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                </div>
+                <div>
+                    <label class="block font-medium text-sm">Kecamatan</label>
+                    <input type="text" name="kecamatan" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                </div>
+                <div>
+                    <label class="block font-medium text-sm">Desa</label>
+                    <input type="text" name="desa" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                </div>
+                <div>
+                    <label class="block font-medium text-sm">Kode Pos</label>
+                    <input type="text" name="kode_pos" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                </div>
+            </div>
+
+            {{-- Ongkir --}}
+            <div>
+                <label class="block font-medium text-sm">Ongkos Kirim (Rp)</label>
+                <input type="number" name="shipping_cost" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
+                    Bayar Sekarang
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+@endsection

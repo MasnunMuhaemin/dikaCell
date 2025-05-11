@@ -19,10 +19,23 @@ class CartController extends Controller
     public function add(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+
+        // Cek apakah stok produk masih tersedia
+        if ($product->stock <= 0) {
+            return redirect()->back()->with('error', 'Produk ini sudah habis, tidak dapat ditambahkan ke keranjang!');
+        }
+
+        // Ambil cart dari session
         $cart = session()->get('cart', []);
 
+        // Jika produk sudah ada dalam cart, tambah kuantitasnya
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            // Cek apakah jumlah yang diminta melebihi stok
+            if ($cart[$id]['quantity'] < $product->stock) {
+                $cart[$id]['quantity']++;
+            } else {
+                return redirect()->back()->with('error', 'Stok produk tidak cukup untuk ditambahkan!');
+            }
         } else {
             $cart[$id] = [
                 'name' => $product->name,
@@ -32,11 +45,12 @@ class CartController extends Controller
             ];
         }
 
+        // Simpan cart ke session
         session()->put('cart', $cart);
 
-        toastr()->success('Produk berhasil ditambahkan ke keranjang!');
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
     }
+
 
     // Hapus produk dari cart
     public function remove($id)

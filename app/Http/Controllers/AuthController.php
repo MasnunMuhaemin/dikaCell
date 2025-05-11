@@ -109,12 +109,10 @@ class AuthController extends Controller
     public function logout()
     {
         try {
-            $user = auth()->user();
-            Auth::logout($user);
+            Auth::logout();
 
-            toastr()->success('Log successfully');
-            return redirect()->route('home')->with('success', 'Logout successfully');
-        } catch (Exception $e) {
+            return redirect('/');
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

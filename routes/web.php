@@ -30,8 +30,8 @@ Route::prefix('auth')->group(function () {
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout.index');
-    Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('checkout.payment');
+    Route::get('/checkout/payment{orderId}', [PaymentController::class, 'showPayment'])->name('checkout.payment');
+    Route::post('/checkout/process', [PaymentController::class, 'processPayment'])->name('process.payment');
 });
 
 Route::middleware('guest')->group(function () {
