@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifyOtpController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::get('/checkout/payment{orderId}', [PaymentController::class, 'showPayment'])->name('checkout.payment');
     Route::post('/checkout/process', [PaymentController::class, 'processPayment'])->name('process.payment');
+    Route::get( '/profile', [ProfileController::class, 'profile'])->name('profile');
 });
 
 Route::middleware('guest')->group(function () {

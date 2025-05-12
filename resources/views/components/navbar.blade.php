@@ -43,6 +43,10 @@
                   <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">{{ $cartCount }}</span>
               @endif
           </a>
+          {{-- Link Profile --}}
+          <a href="{{ route('profile') }}" class="relative text-black hover:text-primary transition ml-4">
+              <i class="fas fa-user-circle text-2xl"></i>
+          </a>
       @endif
 
     </div>

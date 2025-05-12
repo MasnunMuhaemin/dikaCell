@@ -25,6 +25,7 @@ class User extends Authenticatable
         'alamat',
         'no_hp',
         'password',
+        'badge',
     ];
 
     /**
@@ -57,21 +58,26 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'customer_id');
+        return $this->hasMany(Order::class, 'user_id');
     }
+
+    // public function order()
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
 
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'customer_id');
+        return $this->hasMany(Payment::class, 'user_id');
     }
 
     public function carts()
     {
-        return $this->hasMany(Cart::class, 'customer_id');
+        return $this->hasMany(Cart::class, 'user_id');
     }
 
     public function wishlists()
     {
-        return $this->hasMany(Wishlist::class, 'customer_id');
+        return $this->hasMany(Wishlist::class, 'user_id');
     }
 }

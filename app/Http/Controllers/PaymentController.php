@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Shipment;
@@ -32,7 +33,6 @@ class PaymentController extends Controller
     public function processPayment(Request $request)
     {
         $request->validate([
-            'orderId' => 'required|exists:orders,id',
             'payment_method' => 'required|string',
             'alamat_lengkap' => 'required|string',
             'kota' => 'required|string',
@@ -42,50 +42,91 @@ class PaymentController extends Controller
             'shipping_cost' => 'required|numeric',
         ]);
 
-        $order = Order::findOrFail($request->orderId);
-
         $cart = session()->get('cart', []);
-        $subtotal = 0;
-        foreach ($cart as $item) {
-            $subtotal += ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
-        }
-        $totalAmount = $subtotal + $request->shipping_cost;
+        $totalAmount = 0;
 
-        $payment = new Payment();
-        $payment->order_id = $order->id;
-        $payment->payment_method = $request->payment_method;
-        $payment->payment_status = 'pending';
-        $payment->payment_date = now();
-        $payment->amount = $totalAmount;
-        $payment->save();
         foreach ($cart as $productId => $item) {
             $product = Product::find($productId);
-            if ($product) {
-                $product->stock -= $item['quantity'];
-                $product->save();
+            if (!$product) {
+                continue;
             }
+
+            $subtotal = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
+            $total = $subtotal + $request->shipping_cost;
+            $totalAmount += $total;
+
+            // ✅ Simpan ke tabel `cart`
+            $cartEntry = new \App\Models\Cart();
+            $cartEntry->user_id = Auth::id();
+            $cartEntry->product_id = $productId;
+            $cartEntry->quantity = $item['quantity'];
+            $cartEntry->save();
+
+            // Gunakan ID cart barusan
+            $cartId = $cartEntry->id;
+
+            // 1. Buat Order
+            $order = new Order();
+            $order->user_id = Auth::id();
+            $order->cart_id = $cartId;
+            $order->order_date = now();
+            $order->total_price = $total;
+            $order->status = 'pending';
+            $order->save();
+
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $productId;
+            $orderItem->quantity = $item['quantity'];
+            $orderItem->price = $product->price;
+            $orderItem->save();
+
+            // 2. Payment
+            $payment = new Payment();
+            $payment->order_id = $order->id;
+            $payment->user_id = Auth::id();
+            $payment->payment_method = $request->payment_method;
+            $payment->payment_status = 'paid';
+            $payment->payment_date = now();
+            $payment->amount = $total;
+            $payment->save();
+
+            // 3. Shipment
+            $shipment = new Shipment();
+            $shipment->user_id = Auth::id();
+            $shipment->order_id = $order->id;
+            $shipment->shipment_date = now();
+            $shipment->alamat_lengkap = $request->alamat_lengkap;
+            $shipment->kota = $request->kota;
+            $shipment->kecamatan = $request->kecamatan;
+            $shipment->desa = $request->desa;
+            $shipment->kode_pos = $request->kode_pos;
+            $shipment->shipping_cost = $request->shipping_cost;
+            $shipment->shipping_status = 'belum dikirim';
+            $shipment->save();
+
+            // 4. Kurangi stok
+            $product->stock -= $item['quantity'];
+            $product->save();
         }
 
-        $shipment = new Shipment();
-        $shipment->user_id = Auth::id();
-        $shipment->order_id = $order->id;  
-        $shipment->shipment_date = now();
-        $shipment->alamat_lengkap = $request->alamat_lengkap;
-        $shipment->kota = $request->kota;
-        $shipment->kecamatan = $request->kecamatan;
-        $shipment->desa = $request->desa;
-        $shipment->kode_pos = $request->kode_pos;
-        $shipment->shipping_cost = $request->shipping_cost;
-        $shipment->shipping_status = 'belum dikirim';
-        $shipment->save();
-
-        // Update status order
-        // $order->status = 'belum dikirim';
-        // $order->save();
-
+        // Kosongkan session cart
         session()->forget('cart');
 
-        return redirect()->route('checkout.payment', ['orderId' => $order->id])
-            ->with('success', 'Pembayaran berhasil. Data pengiriman telah disimpan.');
+        // Update badge
+        $user = Auth::user();
+        $totalPaid = Payment::where('user_id', $user->id)->where('payment_status', 'paid')->count();
+
+        if ($totalPaid >= 10) {
+            $user->badge = 'platinum';
+        } elseif ($totalPaid >= 5) {
+            $user->badge = 'gold';
+        } else {
+            $user->badge = 'bronze';
+        }
+        $user->save();
+
+        return redirect()->route('profile')
+            ->with('success', 'Pembayaran berhasil. Semua order telah dikirim ke admin untuk dikonfirmasi.');
     }
 }

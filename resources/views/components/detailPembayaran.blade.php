@@ -11,12 +11,6 @@
         </div>
     @endif
 
-    {{-- Detail Order --}}
-    <div class="bg-white shadow-md rounded p-4 mb-6">
-        <h4 class="text-lg font-semibold mb-2">Order ID: {{ $order->id ?? '-' }}</h4>
-        <p class="text-gray-600">Status: {{ $order->status ?? 'belum dikirim' }}</p>
-    </div>
-
     {{-- Tabel Produk di Keranjang --}}
     <div class="bg-white shadow-md rounded p-4 mb-6">
         <h5 class="text-lg font-semibold mb-3">Produk di Keranjang</h5>

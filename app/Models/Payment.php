@@ -10,10 +10,10 @@ class Payment extends Model
         'user_id', 'payment_date', 'payment_method', 'amount', 'order_id'
     ];
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id');
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');

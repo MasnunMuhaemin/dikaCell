@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class, 
             CategorySeeder::class, 
             ProductSeeder::class, 
+            CartSeeder::class, 
             OrderSeeder::class, 
             OrderItemSeeder::class, 
             PaymentSeeder::class, 
             ShipmentSeeder::class, 
-            CartSeeder::class, 
             WishlistSeeder::class
         ]);
     }
