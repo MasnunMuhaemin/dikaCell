@@ -3,15 +3,11 @@
 @section('content')
 <div class="max-w-5xl mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold mb-4">Detail Pembayaran</h2>
-
-    {{-- Notifikasi sukses --}}
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
-
-    {{-- Tabel Produk di Keranjang --}}
     <div class="bg-white shadow-md rounded p-4 mb-6">
         <h5 class="text-lg font-semibold mb-3">Produk di Keranjang</h5>
         <div class="overflow-x-auto">
@@ -39,15 +35,11 @@
             </table>
         </div>
     </div>
-
-    {{-- Form Pembayaran dan Pengiriman --}}
     <div class="bg-white shadow-md rounded p-4">
         <h5 class="text-lg font-semibold mb-4">Form Pembayaran & Pengiriman</h5>
         <form action="{{ route('process.payment') }}" method="POST" class="space-y-4">
             @csrf
             <input type="hidden" name="orderId" value="{{ $order->id ?? '' }}">
-
-            {{-- Metode Pembayaran --}}
             <div>
                 <label for="payment_method" class="block font-medium text-sm">Metode Pembayaran</label>
                 <select name="payment_method" id="payment_method" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
@@ -57,8 +49,6 @@
                     <option value="cod">Cash on Delivery (COD)</option>
                 </select>
             </div>
-
-            {{-- Alamat --}}
             <div>
                 <label for="alamat_lengkap" class="block font-medium text-sm">Alamat Lengkap</label>
                 <textarea name="alamat_lengkap" rows="2" required class="mt-1 block w-full border-gray-300 rounded shadow-sm"></textarea>
@@ -82,8 +72,6 @@
                     <input type="text" name="kode_pos" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
                 </div>
             </div>
-
-            {{-- Ongkir --}}
             <div>
                 <label class="block font-medium text-sm">Ongkos Kirim (Rp)</label>
                 <input type="number" name="shipping_cost" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">

@@ -6,6 +6,9 @@
 
 * {
     font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 /* resources/css/app.css */
@@ -19,4 +22,19 @@
 
 .badge-default {
     @apply bg-gray-200 text-gray-700;
+}
+
+.sidebar-enter {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+.sidebar-enter-active {
+    transform: translateX(0%);
+}
+.sidebar-exit {
+    transform: translateX(0%);
+    transition: transform 0.3s ease-in-out;
+}
+.sidebar-exit-active {
+    transform: translateX(100%);
 }

@@ -2,7 +2,7 @@
     <div class="py-24 max-w-8xl mx-auto px-8 sm:px-10 lg:px-12 flex flex-col md:flex-row gap-12">
         <div class="flex flex-col text-left basis-1/2">
             <p class="inline-block text-primary text-3xl font-bold mb-4">FAQ</p>
-            <p class="sm:text-4xl text-3xl font-extrabold text-base-content">Butuh Info? Ini Jawaban dari Kami.</p>
+            <p class="sm:text-4xl text-3xl font-extrabold text-base-content overflow-hidden">Butuh Info? Ini Jawaban dari Kami.</p>
             <p class="mt-4 text-base text-base-content/70 leading-relaxed max-w-md">
                 Temukan jawaban cepat untuk pertanyaan umum seputar layanan DIKA CELL. Yuk, lihat dulu sebelum menghubungi kami!
             </p>

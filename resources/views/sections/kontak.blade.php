@@ -1,6 +1,5 @@
 <section id="kontak" class="py-10">
-  <div class="max-w-8xl mx-auto px-8 sm:px-10 lg:px-12"> <!-- Menambah lebar dan padding -->
-    <!-- Judul di pojok kanan atas -->
+  <div class="max-w-8xl mx-auto px-8 sm:px-10 lg:px-12"> 
     <div class="flex justify-end mb-12">
       <div class="text-right">
         <h2 class="text-3xl font-bold text-gray-900">Kontak Kami</h2>
@@ -8,9 +7,7 @@
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-12"> <!-- Mengatur gap agar lebih lebar -->
-      
-      <!-- Informasi Kontak -->
+    <div class="grid md:grid-cols-2 gap-12"> 
       <div class="bg-secondary p-6 rounded-lg shadow">
         <h3 class="text-xl font-semibold text-primary mb-6">Informasi Dika Cell</h3>
         <ul class="space-y-5 text-gray-700 text-sm">
@@ -44,8 +41,6 @@
           </li>
         </ul>
       </div>
-
-      <!-- Google Maps -->
       <div>
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1983.7473542350958!2d106.84559931607104!3d-6.208763895504167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3c5cb7e1f6f%3A0x556f63d6a3d4c097!2sJakarta%2C%20Indonesia!5e0!3m2!1sen!2sid!4v1618830204454!5m2!1sen!2sid" 

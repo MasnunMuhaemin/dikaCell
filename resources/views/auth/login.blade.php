@@ -14,12 +14,8 @@
 </head>
 <body>
     <div class="min-h-screen flex">
-        <!-- Kiri: Gambar penuh -->
         <div class="w-1/2 bg-cover bg-center" style="background-image: url('{{ asset('images/hero1.jpeg') }}');">
-            <!-- Kosongkan konten, cukup background saja -->
         </div>
-    
-        <!-- Kanan: Form Login -->
         <div class="w-1/2 flex items-center justify-center bg-white px-8">
             <div class="w-full max-w-md">
                 <h2 class="text-2xl font-bold text-primary mb-2">Dika Cell!</h2>

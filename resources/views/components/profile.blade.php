@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-24">
-
-    {{-- Header Profil --}}
     <div class="bg-white border border-primary shadow rounded-lg p-6 mb-6 flex flex-col md:flex-row items-center md:items-start gap-6">
         <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=128" class="w-24 h-24 rounded-full shadow-md" alt="Avatar">
         
@@ -21,8 +19,6 @@
             </span>
         </div>
     </div>
-
-    {{-- Riwayat Transaksi --}}
     <div class="mb-4">
         <h3 class="text-xl font-semibold text-gray-800">Riwayat Transaksi</h3>
     </div>
@@ -30,32 +26,25 @@
    <div class="space-y-6">
         @foreach ($payments as $payment)
             <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-primary">
-                {{-- Header --}}
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
                     <div>
                         <p class="text-base text-gray-500">Dibayar pada: {{ $payment->created_at->format('d M Y H:i') }}</p>
                     </div>
-                    <div class="flex gap-2">
-                        {{-- Payment Status --}}
+                    <div class="flex flex-wrap gap-2">
                         @if ($payment->payment_status === 'paid')
                             <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Sudah Dibayar</span>
                         @elseif ($payment->payment_status === 'pending')
                             <span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-3 py-1 rounded-full">Menunggu Pembayaran</span>
                         @endif
-
-                        {{-- Order Status --}}
                         <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">
                             Status Pesanan: {{ ucfirst($payment->order->status) }}
                         </span>
-
-                        {{-- Shipment Status --}}
                         <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">
                             Pengiriman: {{ ucfirst($payment->order->shipment->shipping_status ?? 'Belum dikirim') }}
                         </span>
                     </div>
                 </div>
                 <hr class="border-t-2 border-primary my-4">
-                {{-- Produk --}}
                 <div class="divide-y divide-gray-200">
                     @foreach ($payment->order->orderItems as $item)
                         <div class="py-4">
@@ -65,7 +54,6 @@
                     @endforeach
                 </div>
                 <hr class="border-t-2 border-primary my-4">
-                {{-- Total --}}
                 <div class="mt-4 text-right">
                     <p class="text-sm font-semibold text-gray-700">Total: 
                         <span class="text-lg text-black">Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>

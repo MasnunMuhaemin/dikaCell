@@ -15,7 +15,6 @@ class CartController extends Controller
     }
 
 
-    // Tambah produk ke cart
     public function add(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -23,6 +22,13 @@ class CartController extends Controller
         // Cek apakah stok produk masih tersedia
         if ($product->stock <= 0) {
             return redirect()->back()->with('error', 'Produk ini sudah habis, tidak dapat ditambahkan ke keranjang!');
+        }
+
+        // Hitung harga setelah diskon jika ada
+        $finalPrice = $product->price;
+        if ($product->discount && $product->discount > 0) {
+            $discountAmount = ($product->price * $product->discount) / 100;
+            $finalPrice = $product->price - $discountAmount;
         }
 
         // Ambil cart dari session
@@ -39,12 +45,12 @@ class CartController extends Controller
         } else {
             $cart[$id] = [
                 'name' => $product->name,
-                'price' => $product->price,
+                'price' => $finalPrice,
                 'img' => $product->img,
+                'category' => $product->category->name ?? 'Umum',
                 'quantity' => 1
             ];
         }
-
         // Simpan cart ke session
         session()->put('cart', $cart);
 
