@@ -19,24 +19,19 @@ class CartController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        // Cek apakah stok produk masih tersedia
         if ($product->stock <= 0) {
             return redirect()->back()->with('error', 'Produk ini sudah habis, tidak dapat ditambahkan ke keranjang!');
         }
 
-        // Hitung harga setelah diskon jika ada
         $finalPrice = $product->price;
         if ($product->discount && $product->discount > 0) {
             $discountAmount = ($product->price * $product->discount) / 100;
             $finalPrice = $product->price - $discountAmount;
         }
 
-        // Ambil cart dari session
         $cart = session()->get('cart', []);
 
-        // Jika produk sudah ada dalam cart, tambah kuantitasnya
         if (isset($cart[$id])) {
-            // Cek apakah jumlah yang diminta melebihi stok
             if ($cart[$id]['quantity'] < $product->stock) {
                 $cart[$id]['quantity']++;
             } else {
@@ -51,14 +46,11 @@ class CartController extends Controller
                 'quantity' => 1
             ];
         }
-        // Simpan cart ke session
         session()->put('cart', $cart);
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
     }
 
-
-    // Hapus produk dari cart
     public function remove($id)
     {
         $cart = session()->get('cart', []);
@@ -70,7 +62,6 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Produk berhasil dihapus dari keranjang!');
     }
 
-    // Update quantity produk di cart
     public function update(Request $request, $id)
     {
         $cart = session()->get('cart', []);
@@ -82,7 +73,6 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Jumlah produk diperbarui.');
     }
 
-    // Kosongkan seluruh keranjang
     public function clear()
     {
         session()->forget('cart');

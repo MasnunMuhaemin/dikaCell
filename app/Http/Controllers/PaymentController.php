@@ -48,37 +48,32 @@ class PaymentController extends Controller
 
         $cart = session()->get('cart', []);
         $totalSubtotal = 0;
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
+        $user = Auth::user(); 
 
-        // Hitung total subtotal dan total harga setelah diskon
         foreach ($cart as $productId => $item) {
             $product = Product::find($productId);
             if (!$product) {
                 continue;
             }
 
-            // Perhitungan diskon produk
-            $discountPercentage = 0; // Default tidak ada diskon
+            $discountPercentage = 0;
             if ($user->badge === 'Platinum') {
-                $discountPercentage = 15; // Diskon 15% untuk platinum
+                $discountPercentage = 15; 
             } elseif ($user->badge === 'Gold') {
-                $discountPercentage = 10; // Diskon 10% untuk gold
+                $discountPercentage = 10; 
             }
 
             $discountedPrice = $product->price * (1 - $discountPercentage / 100);
             $totalSubtotal += $discountedPrice * $item['quantity'];
 
-            // ✅ Menyimpan entri cart dengan `product_id`, `user_id`, dan `quantity`
             $cartEntry = new Cart();
             $cartEntry->user_id = Auth::id();
             $cartEntry->product_id = $productId;
             $cartEntry->quantity = $item['quantity'];
             $cartEntry->save();
 
-            // Gunakan ID cart yang baru dibuat
             $cartId = $cartEntry->id;
 
-            // 1. Buat Order
             $order = new Order();
             $order->user_id = Auth::id();
             $order->cart_id = $cartId;
@@ -91,20 +86,18 @@ class PaymentController extends Controller
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $productId;
             $orderItem->quantity = $item['quantity'];
-            $orderItem->price = $discountedPrice;  // Menyimpan harga diskon
+            $orderItem->price = $discountedPrice;  
             $orderItem->save();
 
-            // 2. Payment
             $payment = new Payment();
             $payment->order_id = $order->id;
             $payment->user_id = Auth::id();
             $payment->payment_method = $request->payment_method;
             $payment->payment_status = 'paid';
             $payment->payment_date = now();
-            $payment->amount = $totalSubtotal; // Total harga setelah diskon
+            $payment->amount = $totalSubtotal; 
             $payment->save();
 
-            // 3. Shipment
             $shipment = new Shipment();
             $shipment->user_id = Auth::id();
             $shipment->order_id = $order->id;
@@ -118,20 +111,16 @@ class PaymentController extends Controller
             $shipment->shipping_status = 'belum dikirim';
             $shipment->save();
 
-            // 4. Kurangi stok
             $product->stock -= $item['quantity'];
             $product->save();
         }
 
-        // Kosongkan session cart
         session()->forget('cart');
 
-        // Update badge jika diperlukan
         $totalPaid = Payment::where('user_id', $user->id)
             ->where('payment_status', 'paid')
             ->count();
 
-        // Update badge sesuai dengan jumlah pembayaran
         if ($totalPaid >= 10) {
             $user->badge = 'Platinum';
             $discountPercentage = 15;
@@ -143,7 +132,6 @@ class PaymentController extends Controller
             $discountPercentage = 0;
         }
 
-        // Menyimpan perubahan pada badge
         $user->save();
 
         return redirect()->route('profile')

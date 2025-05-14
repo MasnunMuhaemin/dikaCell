@@ -34,6 +34,7 @@ Route::prefix('auth')->group(function () {
     Route::get('/checkout/payment{orderId}', [PaymentController::class, 'showPayment'])->name('checkout.payment');
     Route::post('/checkout/process', [PaymentController::class, 'processPayment'])->name('process.payment');
     Route::get( '/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::post('/konfirmasi-barang/{orderId}', [ProfileController::class, 'confirmShipment'])->name('confirm.shipment');
 });
 
 Route::middleware('guest')->group(function () {
