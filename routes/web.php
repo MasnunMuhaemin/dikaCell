@@ -6,6 +6,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifyOtpController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,8 +34,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::get('/checkout/payment{orderId}', [PaymentController::class, 'showPayment'])->name('checkout.payment');
     Route::post('/checkout/process', [PaymentController::class, 'processPayment'])->name('process.payment');
-    Route::get( '/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/konfirmasi-barang/{orderId}', [ProfileController::class, 'confirmShipment'])->name('confirm.shipment');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/{productId}', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::delete('/wishlist/{wishlistId}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 });
 
 Route::middleware('guest')->group(function () {

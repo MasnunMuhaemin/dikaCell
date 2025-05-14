@@ -55,9 +55,6 @@ class AuthController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
-    // cibtroller
-
     public function registerVerify(Request $request)
     {
         try {

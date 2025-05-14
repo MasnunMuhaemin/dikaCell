@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // Tampilkan isi cart
     public function index()
     {
         $cart = session()->get('cart', []);

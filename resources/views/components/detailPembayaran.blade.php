@@ -9,8 +9,6 @@
             {{ session('success') }}
         </div>
     @endif
-
-    {{-- TABEL PRODUK --}}
     <div class="bg-white shadow-md rounded p-4 mb-6">
         @php
             $badge = Auth::user()->badge ?? 'Bronze';
@@ -73,8 +71,6 @@
             </table>
         </div>
     </div>
-
-    {{-- RINGKASAN PEMBAYARAN --}}
     <div class="bg-gray-50 p-4 rounded mb-6">
         <h5 class="font-semibold text-lg mb-3">Ringkasan Pembayaran</h5>
         <ul class="text-sm space-y-1">
@@ -100,8 +96,6 @@
             </li>
         </ul>
     </div>
-
-    {{-- FORM PEMBAYARAN --}}
     <div class="bg-white shadow-md rounded p-4">
         <h5 class="text-lg font-semibold mb-4">Form Pembayaran & Pengiriman</h5>
         <form action="{{ route('process.payment') }}" method="POST" class="space-y-4">
@@ -119,34 +113,34 @@
             </div>
             <div>
                 <label for="alamat_lengkap" class="block font-medium text-sm">Alamat Lengkap</label>
-                <textarea name="alamat_lengkap" rows="2" required class="mt-1 block w-full border-gray-300 rounded shadow-sm"></textarea>
+                <textarea name="alamat_lengkap" rows="2" required class="mt-1 block w-full border border-primary rounded shadow-sm"></textarea>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label class="block font-medium text-sm">Kota</label>
-                    <input type="text" name="kota" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                    <input type="text" name="kota" required class="mt-1 block w-full border border-primary rounded shadow-sm">
                 </div>
                 <div>
                     <label class="block font-medium text-sm">Kecamatan</label>
-                    <input type="text" name="kecamatan" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                    <input type="text" name="kecamatan" required class="mt-1 block w-full border border-primary rounded shadow-sm">
                 </div>
                 <div>
                     <label class="block font-medium text-sm">Desa</label>
-                    <input type="text" name="desa" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                    <input type="text" name="desa" required class="mt-1 block w-full border border-primary rounded shadow-sm">
                 </div>
                 <div>
                     <label class="block font-medium text-sm">Kode Pos</label>
-                    <input type="text" name="kode_pos" required class="mt-1 block w-full border-gray-300 rounded shadow-sm">
+                    <input type="text" name="kode_pos" required class="mt-1 block w-full border border-primary rounded shadow-sm">
                 </div>
             </div>
             <div>
                 <label class="block font-medium text-sm">Ongkos Kirim (Rp)</label>
-                <input type="number" name="shipping_cost" required class="mt-1 block w-full border-gray-300 rounded shadow-sm" id="ongkir-input">
+                <input type="number" name="shipping_cost" required class="mt-1 block w-full border border-primary rounded shadow-sm" id="ongkir-input">
             </div>
 
             <div class="pt-4">
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
+                <button type="submit" class="w-full bg-primary hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded">
                     Bayar Sekarang
                 </button>
             </div>

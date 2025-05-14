@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container py-20 px-4 sm:px-6 md:px-8">
-    <!-- Judul Halaman -->
     <div class="text-center mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold text-gray-800">🛒 Keranjang Belanja</h2>
         <p class="text-sm text-gray-500 mt-2">Kelola produk pilihanmu sebelum lanjut ke pembayaran.</p>
@@ -45,26 +44,21 @@
     </div>
 
     @if(count($cart) > 0)
-    <!-- Total Harga -->
     <div class="mt-8 bg-gray-50 border border-primary p-4 sm:p-6 rounded-lg shadow flex flex-col sm:flex-row justify-between items-center text-base sm:text-lg gap-2">
         <span class="font-semibold text-gray-700">Total Belanja:</span>
         <span class="text-red-600 font-bold text-xl sm:text-2xl">Rp {{ number_format($total) }}</span>
     </div>
-
-    <!-- Tombol Aksi -->
     <div class="mt-6 flex flex-col md:flex-row gap-4 justify-between">
         <a href="{{ route('checkout.payment', ['orderId' => $order->id ?? 1]) }}"
            class="w-full md:w-auto bg-primary/75 hover:bg-primary text-white font-semibold py-3 px-6 rounded-lg shadow transition duration-300 text-center">
             Lanjut ke Pembayaran
         </a>
-        <a href="{{ url('/') }}"
+        <a href="{{ url('/#kategori') }}"
            class="w-full md:w-auto bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-lg shadow transition duration-300 text-center">
              Lanjut Belanja
         </a>
     </div>
     @endif
-
-    <!-- Tombol Kembali -->
     <div class="mt-10 text-center">
         <a href="{{ url('/') }}"
            class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-5 rounded-full text-sm font-medium shadow">
