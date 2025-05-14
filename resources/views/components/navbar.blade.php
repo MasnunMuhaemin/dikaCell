@@ -1,16 +1,13 @@
 <nav class="bg-white shadow fixed top-0 w-full z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <!-- Logo -->
       <div class="text-xl font-extrabold text-black">
         DIKA CELL
       </div>
-
-      <!-- Desktop Menu (Only from lg and up) -->
       <div class="hidden lg:flex items-center space-x-6">
-        <a href="#tentang" class="text-black font-semibold hover:text-primary">TENTANG</a>
-        <a href="#kategori" class="text-black font-semibold hover:text-primary">PRODUK</a>
-        <a href="#kontak" class="text-black font-semibold hover:text-primary">KONTAK</a>
+        <a href="/#tentang" class="text-black font-semibold hover:text-primary">TENTANG</a>
+        <a href="/#kategori" class="text-black font-semibold hover:text-primary">PRODUK</a>
+        <a href="/#kontak" class="text-black font-semibold hover:text-primary">KONTAK</a>
 
         @if (auth()->check())
           <a href="{{ route('auth.logout') }}" class="text-black font-semibold hover:text-primary">LOGOUT</a>
@@ -36,8 +33,6 @@
           </a>
         @endif
       </div>
-
-      <!-- Hamburger Menu (Only show below lg) -->
       <div class="lg:hidden z-[999] relative">
         <button id="menuToggle" class="text-2xl text-black focus:outline-none">
           <i class="fas fa-bars"></i>
@@ -46,18 +41,13 @@
     </div>
   </div>
 </nav>
-
-<!-- Sidebar Fullscreen for Mobile & Tablet -->
 <div id="sidebar" class="fixed top-0 right-0 h-full w-full bg-white transform translate-x-full transition-transform duration-300 z-50 lg:hidden">
-  <!-- Sidebar Header -->
   <div class="flex justify-between items-center p-4 border-b">
     <span class="text-xl font-bold">Menu</span>
     <button id="closeSidebar" class="text-xl">
       <i class="fas fa-times"></i>
     </button>
   </div>
-
-  <!-- Sidebar Content: Menu Items Centered Vertically -->
   <div class="flex flex-col items-center justify-start p-4 space-y-6 pt-6">
     <a href="#tentang" class="text-black font-semibold hover:text-primary">TENTANG</a>
     <a href="#kategori" class="text-black font-semibold hover:text-primary">PRODUK</a>
@@ -83,11 +73,7 @@
     @endif
   </div>
 </div>
-
-<!-- Overlay for Sidebar -->
 <div id="overlay" class="hidden fixed inset-0 bg-black opacity-30 z-40 lg:hidden"></div>
-
-<!-- Sidebar Script -->
 <script>
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');

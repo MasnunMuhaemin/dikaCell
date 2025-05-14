@@ -1,4 +1,4 @@
-<div class="relative isolate overflow-hidden bg-custom">
+<div id="faq" class="relative isolate overflow-hidden bg-custom">
     <div class="py-24 max-w-8xl mx-auto px-8 sm:px-10 lg:px-12 flex flex-col md:flex-row gap-12">
         <div class="flex flex-col text-left basis-1/2">
             <p class="inline-block text-primary text-3xl font-bold mb-4">FAQ</p>

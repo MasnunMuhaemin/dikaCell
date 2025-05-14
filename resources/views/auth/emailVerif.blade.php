@@ -1,6 +1,18 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Email || Verif</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-@section('content')
+        <!-- Styles / Scripts -->
+        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @else
+            <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+            <script src="{{ mix('js/app.js') }}" defer></script>
+        @endif
+</head>
+<body>
     <div class="flex flex-col items-center justify-center min-h-screen w-full bg-gray-50">
         @if (session('success'))
             <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-4">
@@ -17,7 +29,7 @@
             <p class="text-sm mb-6">Kode verifikasi dikirimkan melalui email: <span class="font-bold">{{ Session::get('email') }}</span></p>
             <form method="POST" action="{{ route('auth.verify.otp.submit') }}">
                 @csrf
-
+    
                 <div class="mb-4">
                     <label for="otp" cla q
                     ss="block text-gray-700 font-medium mb-2">Masukkan OTP</label>
@@ -28,7 +40,7 @@
                         <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-
+    
                 <button type="submit"
                     class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 rounded-lg transition mt-4">
                     Verifikasi
@@ -44,4 +56,6 @@
             </form>
         </div>
     </div>
-@endsection
+</body>
+</html>
+

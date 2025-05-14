@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -22,10 +23,13 @@ class PaymentController extends Controller
 
         $cart = session()->get('cart', []);
 
+        $user = auth()->user();
+
         return view('components.detailPembayaran', [
             'order' => $order,
             'payment' => $payment,
             'cart' => $cart,
+            'user' => $user,
         ]);
     }
 
@@ -43,26 +47,35 @@ class PaymentController extends Controller
         ]);
 
         $cart = session()->get('cart', []);
-        $totalAmount = 0;
+        $totalSubtotal = 0;
+        $user = Auth::user(); // Ambil data pengguna yang sedang login
 
+        // Hitung total subtotal dan total harga setelah diskon
         foreach ($cart as $productId => $item) {
             $product = Product::find($productId);
             if (!$product) {
                 continue;
             }
 
-            $subtotal = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
-            $total = $subtotal + $request->shipping_cost;
-            $totalAmount += $total;
+            // Perhitungan diskon produk
+            $discountPercentage = 0; // Default tidak ada diskon
+            if ($user->badge === 'Platinum') {
+                $discountPercentage = 15; // Diskon 15% untuk platinum
+            } elseif ($user->badge === 'Gold') {
+                $discountPercentage = 10; // Diskon 10% untuk gold
+            }
 
-            // ✅ Simpan ke tabel `cart`
-            $cartEntry = new \App\Models\Cart();
+            $discountedPrice = $product->price * (1 - $discountPercentage / 100);
+            $totalSubtotal += $discountedPrice * $item['quantity'];
+
+            // ✅ Menyimpan entri cart dengan `product_id`, `user_id`, dan `quantity`
+            $cartEntry = new Cart();
             $cartEntry->user_id = Auth::id();
             $cartEntry->product_id = $productId;
             $cartEntry->quantity = $item['quantity'];
             $cartEntry->save();
 
-            // Gunakan ID cart barusan
+            // Gunakan ID cart yang baru dibuat
             $cartId = $cartEntry->id;
 
             // 1. Buat Order
@@ -70,15 +83,15 @@ class PaymentController extends Controller
             $order->user_id = Auth::id();
             $order->cart_id = $cartId;
             $order->order_date = now();
-            $order->total_price = $total;
             $order->status = 'pending';
+            $order->total_price = $totalSubtotal;
             $order->save();
 
             $orderItem = new OrderItem();
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $productId;
             $orderItem->quantity = $item['quantity'];
-            $orderItem->price = $product->price;
+            $orderItem->price = $discountedPrice;  // Menyimpan harga diskon
             $orderItem->save();
 
             // 2. Payment
@@ -88,7 +101,7 @@ class PaymentController extends Controller
             $payment->payment_method = $request->payment_method;
             $payment->payment_status = 'paid';
             $payment->payment_date = now();
-            $payment->amount = $total;
+            $payment->amount = $totalSubtotal; // Total harga setelah diskon
             $payment->save();
 
             // 3. Shipment
@@ -113,17 +126,24 @@ class PaymentController extends Controller
         // Kosongkan session cart
         session()->forget('cart');
 
-        // Update badge
-        $user = Auth::user();
-        $totalPaid = Payment::where('user_id', $user->id)->where('payment_status', 'paid')->count();
+        // Update badge jika diperlukan
+        $totalPaid = Payment::where('user_id', $user->id)
+            ->where('payment_status', 'paid')
+            ->count();
 
+        // Update badge sesuai dengan jumlah pembayaran
         if ($totalPaid >= 10) {
-            $user->badge = 'platinum';
+            $user->badge = 'Platinum';
+            $discountPercentage = 15;
         } elseif ($totalPaid >= 5) {
-            $user->badge = 'gold';
+            $user->badge = 'Gold';
+            $discountPercentage = 10;
         } else {
-            $user->badge = 'bronze';
+            $user->badge = 'B   ronze';
+            $discountPercentage = 0;
         }
+
+        // Menyimpan perubahan pada badge
         $user->save();
 
         return redirect()->route('profile')

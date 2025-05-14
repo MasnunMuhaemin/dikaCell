@@ -9,11 +9,11 @@
         <div class="px-4 py-6 lg:ml-16">
             <h3 class="text-lg font-semibold mb-3">Menu</h3>
             <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:underline">Home</a></li>
-                <li><a href="#" class="hover:underline">Produk</a></li>
-                <li><a href="#" class="hover:underline">Tentang Kami</a></li>
-                <li><a href="#" class="hover:underline">Kontak</a></li>
-                <li><a href="#" class="hover:underline">Faq</a></li>
+                <li><a href="/" class="hover:underline">Home</a></li>
+                <li><a href="/#kategori" class="hover:underline">Produk</a></li>
+                <li><a href="/#tentang" class="hover:underline">Tentang Kami</a></li>
+                <li><a href="/#kontak" class="hover:underline">Kontak</a></li>
+                <li><a href="/#faq" class="hover:underline">Faq</a></li>
             </ul>
         </div>
         <div class="px-4 py-6">
