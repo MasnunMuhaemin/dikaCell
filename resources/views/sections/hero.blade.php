@@ -11,7 +11,7 @@
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
       <p class="text-white uppercase tracking-widest mb-2">Bersama DIKA CELL</p>
       <h1 class="text-white text-4xl sm:text-6xl font-bold mb-4 overflow-hidden">Pusat Solusi HP</h1>
-      <a href="#next-section"
+      <a href="/#kategori"
          class="relative inline-block text-sky-400 font-semibold transition duration-300
                 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px]
                 after:w-0 after:bg-sky-400 after:transition-all after:duration-300 hover:after:w-full">

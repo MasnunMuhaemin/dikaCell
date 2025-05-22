@@ -5,7 +5,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png"/>
 
-        <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @else
@@ -15,7 +14,6 @@
 </head>
 <body>
     <div class="min-h-screen flex">
-        <!-- Kiri: Gambar penuh -->
         <div class="w-1/2 bg-cover bg-center" style="background-image: url('{{ asset('images/hero2.jpeg') }}');">
         </div>
         <div class="w-1/2 flex items-center justify-center bg-white px-8">

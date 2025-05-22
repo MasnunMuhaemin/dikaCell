@@ -1,9 +1,9 @@
 <nav class="bg-white shadow fixed top-0 w-full z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <div class="text-xl font-extrabold text-black">
+      <a href="{{ route('landing') }}" class="text-xl font-extrabold text-black">
         DIKA CELL
-      </div>
+      </a>
       <div class="hidden lg:flex items-center space-x-6">
         <a href="/#tentang" class="text-black font-semibold hover:text-primary">TENTANG</a>
         <a href="/#kategori" class="text-black font-semibold hover:text-primary">PRODUK</a>

@@ -10,13 +10,12 @@ use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', [ProductController::class, 'landing']);
+Route::get('/', [ProductController::class, 'landing'])->name('landing');
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    Route::get('/pages/app', function () {
-        return view('pages.landing');
-    })->name('pages.app');
+    Route::get('/pages/app', [ProductController::class, 'landing'])->name('pages.app');
+
 });
 
 Route::get('/kategori/{id}', [ProductController::class, 'getProduct'])->name('category.products');

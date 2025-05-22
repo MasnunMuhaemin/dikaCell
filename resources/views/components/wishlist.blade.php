@@ -8,21 +8,17 @@
         @forelse($wishlists as $wishlist)
             <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex justify-between items-center">
                 <div class="flex items-center gap-4">
-                    <!-- Gambar Produk -->
                     <img src="{{ asset('storage/' . ($wishlist->product->img ?? 'default-image.png')) }}" 
                         alt="{{ $wishlist->product->name }}" 
                         class="w-20 h-20 object-cover rounded">
 
-                    <!-- Info Produk -->
                     <div>
                         <p class="font-semibold text-lg">{{ $wishlist->product->name }}</p>
                         <p class="text-gray-600">Rp {{ number_format($wishlist->product->price, 0, ',', '.') }}</p>
                     </div>
                 </div>
 
-                <!-- Tombol Aksi -->
                 <div class="flex gap-2 items-center">
-                    <!-- Form Tambah ke Keranjang -->
                     <form action="{{ route('cart.add', $wishlist->product->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="text-primary hover:text-blue-400 py-1 px-3 rounded text-sm font-bold">
@@ -30,7 +26,6 @@
                         </button>
                     </form>
 
-                    <!-- Form Hapus Wishlist -->
                     <form action="{{ route('wishlist.destroy', $wishlist->id) }}" method="POST">
                         @csrf
                         @method('DELETE')

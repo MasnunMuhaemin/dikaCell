@@ -128,7 +128,7 @@ class PaymentController extends Controller
             $user->badge = 'Gold';
             $discountPercentage = 10;
         } else {
-            $user->badge = 'B   ronze';
+            $user->badge = 'Bronze';
             $discountPercentage = 0;
         }
 

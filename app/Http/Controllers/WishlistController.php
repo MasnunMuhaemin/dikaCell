@@ -14,11 +14,15 @@ class WishlistController extends Controller
         return view('components.wishlist', compact('wishlists'));
     }
 
-    public function store($productId)
+    public function store(Request $request, $productId)
     {
+        if (!Auth::check()) {
+            return back()->with('error', 'Anda harus login untuk menambahkan wishlist.');
+        }
+
         Wishlist::firstOrCreate([
             'user_id' => Auth::id(),
-            'product_id' => $productId,
+            'product_id' => $productId
         ]);
 
         return back()->with('success', 'Produk ditambahkan ke wishlist.');
@@ -26,7 +30,10 @@ class WishlistController extends Controller
 
     public function destroy($wishlistId)
     {
-        $wishlist = Wishlist::where('id', $wishlistId)->where('user_id', Auth::id())->firstOrFail();
+        $wishlist = Wishlist::where('id', $wishlistId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
         $wishlist->delete();
 
         return back()->with('success', 'Produk dihapus dari wishlist.');

@@ -61,7 +61,7 @@ class VerifyOtpController extends Controller
         if($user->hasRole('admin')) {
             return redirect('/admin')->with('success', 'Akun berhasil diverifikasi dan Anda telah login.');
         }else {
-            return redirect('pages/landing');
+            return redirect()->route('pages.app');
         }
     }
 
